@@ -1,4 +1,4 @@
-// <copyright file="TestPrometheusExporter.cs" company="OpenTelemetry Authors">
+// <copyright file="TestDynatraceExporter.cs" company="OpenTelemetry Authors">
 // Copyright The OpenTelemetry Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using OpenTelemetry;
 using OpenTelemetry.Exporter.Dynatrace;
-using OpenTelemetry.Exporter.Prometheus;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Metrics.Export;
 using OpenTelemetry.Trace;
