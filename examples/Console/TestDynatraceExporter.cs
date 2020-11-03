@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using OpenTelemetry;
+using OpenTelemetry.Exporter.Dynatrace;
 using OpenTelemetry.Exporter.Prometheus;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Metrics.Export;
@@ -28,9 +29,14 @@ namespace Examples.Console
 {
     internal class TestDynatraceExporter
     {
-        internal static async Task<object> RunAsync(int pushIntervalInSecs, int totalDurationInMins)
+        internal static async Task<object> RunAsync(string url, string apiToken, int pushIntervalInSecs, int totalDurationInMins)
         {
-            var promExporter = new OpenTelemetry.Exporter.Dynatrace.DynatraceMetricsExporter();
+            var options = new DynatraceExporterOptions
+            {
+                Url = url,
+                ApiToken = apiToken,
+            };
+            var dtExporter = new DynatraceMetricsExporter(options);
 
             // Create Processor (called Batcher in Metric spec, this is still not decided)
             var processor = new UngroupedBatcher();
@@ -40,7 +46,7 @@ namespace Examples.Console
             // All meters from this factory will be configured with the common processing pipeline.
             MeterProvider.SetDefault(Sdk.CreateMeterProviderBuilder()
                 .SetProcessor(processor)
-                .SetExporter(promExporter)
+                .SetExporter(dtExporter)
                 .SetPushInterval(TimeSpan.FromSeconds(pushIntervalInSecs))
                 .Build());
 

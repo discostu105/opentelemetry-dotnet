@@ -45,7 +45,7 @@ namespace Examples.Console
                     (JaegerOptions options) => TestJaegerExporter.Run(options.Host, options.Port),
                     (ZipkinOptions options) => TestZipkinExporter.Run(options.Uri),
                     (PrometheusOptions options) => TestPrometheusExporter.RunAsync(options.Port, options.PushIntervalInSecs, options.DurationInMins),
-                    (DynatraceOptions options) => TestDynatraceExporter.RunAsync(options.PushIntervalInSecs, options.DurationInMins),
+                    (DynatraceOptions options) => TestDynatraceExporter.RunAsync(options.Url, options.ApiToken, options.PushIntervalInSecs, options.DurationInMins),
                     (GrpcNetClientOptions options) => TestGrpcNetClient.Run(),
                     (HttpClientOptions options) => TestHttpClient.Run(),
                     (RedisOptions options) => TestRedis.Run(options.Uri),
@@ -100,6 +100,12 @@ namespace Examples.Console
 
         [Option('d', "duration", Default = 2, HelpText = "Total duration in minutes to run the demo. Run atleast for a min to see metrics flowing.", Required = false)]
         public int DurationInMins { get; set; }
+
+        [Option('u', "url", Default = "http://127.0.0.1:14499/metrics/ingest", HelpText = "Dynatrace metrics ingest API URL.", Required = false)]
+        public string Url { get; set; }
+
+        [Option('a', "apiToken", Default = "", HelpText = "Dynatrace API authentication token.", Required = false)]
+        public string ApiToken { get; set; }
     }
 
     [Verb("grpc", HelpText = "Specify the options required to test Grpc.Net.Client")]
